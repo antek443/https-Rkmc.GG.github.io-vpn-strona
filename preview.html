@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZeentxPL VPN</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+  text-align: center;
+  background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+h1 {
+  margin-top: 30px;
+  font-size: 40px;
+  background: linear-gradient(90deg, #ff4ecd, #6a5cff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px #ff4ecd; }
+  to { text-shadow: 0 0 20px #6a5cff; }
+}
+
+.box {
+  margin: 30px auto;
+  padding: 20px;
+  width: 85%;
+  max-width: 600px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 20px rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+}
+
+/* 🔥 PODNOSZENIE BOXA */
+.box:hover {
+  transform: translateY(-15px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(106,92,255,0.4);
+}
+
+button {
+  padding: 12px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #ff4ecd, #6a5cff);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 15px #ff4ecd;
+}
+
+button:active {
+  transform: scale(0.9);
+}
+
+#vpnIP {
+  margin-top: 15px;
+  font-size: 18px;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌍 ZeentxPL VPN</h1>
+
+<div class="box">
+  <h2>Twoje IP:</h2>
+  <p id="realIP">Ładowanie...</p>
+</div>
+
+<div class="box">
+  <h2>Wybierz kraj:</h2>
+  <button onclick="setVPN('USA')">USA 🇺🇸</button>
+  <button onclick="setVPN('Niemcy')">Niemcy 🇩🇪</button>
+  <button onclick="setVPN('Japonia')">Japonia 🇯🇵</button>
+  <button onclick="setVPN('UK')">UK 🇬🇧</button>
+
+  <p id="vpnIP">Kliknij kraj...</p>
+</div>
+
+<script>
+async function getIP() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    document.getElementById('realIP').innerText = data.ip;
+  } catch {
+    document.getElementById('realIP').innerText = "Błąd";
+  }
+}
+
+function fakeIP() {
+  return Math.floor(Math.random()*255)+"."+
+         Math.floor(Math.random()*255)+"."+
+         Math.floor(Math.random()*255)+"."+
+         Math.floor(Math.random()*255);
+}
+
+function setVPN(country) {
+  const text = "VPN: " + country + " | IP: " + fakeIP();
+  const el = document.getElementById('vpnIP');
+  el.innerText = text;
+  el.style.animation = "none";
+  setTimeout(() => el.style.animation = "fadeIn 0.5s", 10);
+}
+
+getIP();
+</script>
+
+</body>
+</html>
